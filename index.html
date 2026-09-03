@@ -2,11 +2,11 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>poratmn Yayın Sitesi</title>
+  <title>Atlas'ın Yayıncı Sitesi</title>
   <style>
     body {
       background-color: #0a1a3d; /* dark blue */
-      color: #f0f0f0; /* açık gri yazı */
+      color: #f0f0f0;
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
@@ -17,7 +17,7 @@
       text-align: center;
     }
     nav a {
-      margin: 10px;
+      margin: 15px;
       color: #39ff14;
       text-decoration: none;
       font-weight: bold;
@@ -25,40 +25,35 @@
     nav a:hover {
       text-shadow: 0 0 10px #39ff14;
     }
-    header {
-      text-align: center;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
       padding: 40px;
     }
-    h1 {
-      color: #f0f0f0;
-    }
-    .neon-button {
-      border: 2px solid #39ff14; /* neon yeşil çerçeve */
-      padding: 10px 20px;
-      margin-top: 20px;
-      background: transparent;
-      color: #39ff14;
-      font-size: 18px;
-      cursor: pointer;
-      transition: 0.3s;
+    .card {
+      background-color: #0f224d;
+      padding: 20px;
+      border-radius: 10px;
       box-shadow: 0 0 10px #39ff14;
-    }
-    .neon-button:hover {
-      background-color: #39ff14;
-      color: #0a1a3d;
-      box-shadow: 0 0 20px #39ff14;
-    }
-    section {
-      padding: 40px;
       text-align: center;
+    }
+    .card h3 {
+      color: #39ff14;
     }
     iframe {
-      width: 80%;
-      height: 400px;
+      width: 100%;
+      height: 250px;
       border: 2px solid #39ff14;
       box-shadow: 0 0 15px #39ff14;
     }
-    .rules, .banlist, .about {
+    footer {
+      background-color: #08122a;
+      padding: 20px;
+      color: #ccc;
+      text-align: center;
+    }
+    .about {
       background-color: #0f224d;
       margin: 20px auto;
       padding: 20px;
@@ -67,15 +62,8 @@
       box-shadow: 0 0 10px #39ff14;
       text-align: left;
     }
-    .rules h3, .banlist h3, .about h3 {
+    .about h3 {
       color: #39ff14;
-    }
-    footer {
-      background-color: #08122a;
-      padding: 20px;
-      color: #ccc;
-      font-size: 14px;
-      text-align: center;
     }
   </style>
 </head>
@@ -91,25 +79,45 @@
     <a href="#about">Hakkımda</a>
   </nav>
 
-  <!-- Ana Sayfa -->
-  <header id="home">
-    <h1>Merhaba benporatmn  13 yaşımdayım</h1>
-    <p>Yazılımla uğraşırım, sizleri severim.</p>
-    <p>Instagram: <strong>pogaze_5</strong></p>
-    <button class="neon-button">Takip Et</button>
-  </header>
+  <!-- Kutucuklar -->
+  <div class="grid">
+    <div class="card">
+      <h3>🛒 Mağaza</h3>
+      <p>%50 İNDİRİM AKTİF</p>
+      <p>AP yükleme</p>
+    </div>
+    <div class="card">
+      <h3>💻 Launcher</h3>
+      <p>Tek tıkla bağlan — Win · Mac · Linux</p>
+    </div>
+    <div class="card">
+      <h3>🎮 Discord</h3>
+      <p>35.000+ üye · katılmak için tıkla</p>
+    </div>
+    <div class="card">
+      <h3>📢 Forum</h3>
+      <p>2.863 Şu An Çevrimiçi</p>
+    </div>
+    <div class="card">
+      <h3>📖 Destek</h3>
+      <p>Kayıt aç, itiraz et, yardım al</p>
+    </div>
+    <div class="card">
+      <h3>🚫 Cezalar</h3>
+      <p>Son ban/mute listesi</p>
+    </div>
+  </div>
 
   <!-- Yayın Bölümü -->
-  <section id="yayin">
-    <h2>🎥 Yayın Bölümü</h2>
-    <p>Burada Kick yayınlarımın videosunu izleyebilirsiniz:</p>
+  <section id="yayin" class="card">
+    <h3>🎥 Yayın Bölümü</h3>
     <iframe src="https://kick.com/poratmn/embed" allowfullscreen></iframe>
   </section>
 
   <!-- Kurallar -->
-  <section id="kurallar" class="rules">
+  <section id="kurallar" class="card">
     <h3>📜 Kurallar</h3>
-    <ul>
+    <ul style="text-align:left;">
       <li>Küfür ve hakaret yasaktır.</li>
       <li>Spam ve flood yapmayın.</li>
       <li>Saygılı olun, topluluğu koruyun.</li>
@@ -118,9 +126,9 @@
   </section>
 
   <!-- Ban/Mute Listesi -->
-  <section id="banlist" class="banlist">
+  <section id="banlist" class="card">
     <h3>🚫 En Son Banlanan/Mute’lenen</h3>
-    <ul>
+    <ul style="text-align:left;">
       <li>Kullanıcı1 - Ban</li>
       <li>Kullanıcı2 - Mute</li>
       <li>Kullanıcı3 - Ban</li>
@@ -130,7 +138,7 @@
   <!-- Hakkımda -->
   <section id="about" class="about">
     <h3>ℹ️ Hakkımda</h3>
-    <p>Ben poratmn, 13 yaşındayım. Yazılımla uğraşmayı, oyun oynamayı ve yayın yapmayı seviyorum. 
+    <p>Ben Atlas, 13 yaşındayım. Yazılımla uğraşmayı, oyun oynamayı ve yayın yapmayı seviyorum. 
     Minecraft ve Valorant topluluğu için bu siteyi kurdum. Sizlerle birlikte büyümek istiyorum. 🎮✨</p>
   </section>
 

@@ -1,151 +1,512 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>Atlas'ın Yayıncı Sitesi</title>
-  <style>
-    body {
-      background-color: #0a1a3d; /* dark blue */
-      color: #f0f0f0;
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    nav {
-      background-color: #08122a;
-      padding: 15px;
-      text-align: center;
-    }
-    nav a {
-      margin: 15px;
-      color: #39ff14;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-shadow: 0 0 10px #39ff14;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      padding: 40px;
-    }
-    .card {
-      background-color: #0f224d;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #39ff14;
-      text-align: center;
-    }
-    .card h3 {
-      color: #39ff14;
-    }
-    iframe {
-      width: 100%;
-      height: 250px;
-      border: 2px solid #39ff14;
-      box-shadow: 0 0 15px #39ff14;
-    }
-    footer {
-      background-color: #08122a;
-      padding: 20px;
-      color: #ccc;
-      text-align: center;
-    }
-    .about {
-      background-color: #0f224d;
-      margin: 20px auto;
-      padding: 20px;
-      width: 80%;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #39ff14;
-      text-align: left;
-    }
-    .about h3 {
-      color: #39ff14;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Poratmn — Minecraft & Valorant Yayıncısı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #070b16;
+    --bg-panel: #0d1424;
+    --bg-panel-2: #101a30;
+    --line: #1c2740;
+    --text: #e7ecf7;
+    --text-dim: #8fa0c2;
+    --neon: #39ff88;
+    --neon-dim: #1e7a4c;
+    --neon-glow: rgba(57,255,136,.35);
+    --danger: #ff5470;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: radial-gradient(1200px 600px at 15% -10%, #0d1a33 0%, var(--bg) 55%) fixed;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+  }
+  h1,h2,h3, .brand, .btn, nav a{ font-family: 'Chakra Petch', sans-serif; }
+  a{ color: inherit; text-decoration: none; }
+  img{ max-width:100%; display:block; }
+
+  .wrap{ max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+
+  header{
+    position: sticky; top:0; z-index: 40;
+    background: rgba(7,11,22,.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-row{ display:flex; align-items:center; justify-content:space-between; padding: 16px 28px; max-width:1180px; margin:0 auto; flex-wrap:wrap; gap:12px; }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.15rem; letter-spacing:.02em; }
+  .brand-mark{
+    width:34px; height:34px; border-radius:8px;
+    background: linear-gradient(135deg,#0f2, #063);
+    border: 1px solid var(--neon);
+    display:flex; align-items:center; justify-content:center;
+    color: var(--neon); font-weight:700; font-family:'Chakra Petch';
+    box-shadow: 0 0 14px var(--neon-glow);
+  }
+  nav.links{ display:flex; gap: 24px; flex-wrap:wrap; }
+  nav.links a{ color: var(--text-dim); font-size:.92rem; font-weight:500; transition: color .15s; }
+  nav.links a:hover, nav.links a.active{ color: var(--neon); }
+  .header-actions{ display:flex; gap:12px; align-items:center; }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1.5px solid var(--neon);
+    color: var(--neon);
+    font-size:.9rem; font-weight:600; letter-spacing:.02em;
+    background: transparent;
+    cursor:pointer;
+    transition: box-shadow .18s, transform .12s, background .18s;
+  }
+  .btn:hover{ box-shadow: 0 0 16px var(--neon-glow); background: rgba(57,255,136,.08); transform: translateY(-1px); }
+  .btn.solid{ background: var(--neon); color: #04150c; }
+  .btn.solid:hover{ box-shadow: 0 0 22px var(--neon-glow); }
+  .btn.small{ padding:7px 13px; font-size:.8rem; }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+
+  .hero{ padding: 56px 0 20px; }
+  .hero-grid{ display:grid; grid-template-columns: 1.2fr .8fr; gap: 22px; align-items:stretch; }
+  @media (max-width: 860px){ .hero-grid{ grid-template-columns: 1fr; } }
+
+  .panel{
+    background: linear-gradient(180deg, var(--bg-panel), var(--bg-panel-2));
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .live-panel{ position:relative; overflow:hidden; padding:0; min-height: 320px; display:flex; flex-direction:column; }
+  .live-frame-wrap{ position:relative; flex:1; background:#000; }
+  .live-frame-wrap iframe{ width:100%; height:100%; border:0; min-height: 300px; display:block; }
+  .live-badge{
+    position:absolute; top:14px; left:14px; z-index:2;
+    display:flex; align-items:center; gap:7px;
+    background: rgba(4,10,6,.75); border:1px solid var(--neon);
+    color: var(--neon); font-size:.78rem; font-weight:700;
+    padding: 6px 11px; border-radius: 999px; letter-spacing:.03em;
+  }
+  .live-dot{ width:7px; height:7px; border-radius:50%; background: var(--neon); box-shadow:0 0 8px var(--neon); }
+  .live-foot{ display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-top:1px solid var(--line); gap:12px; flex-wrap:wrap; }
+  .live-foot h3{ margin:0; font-size:1rem; }
+  .live-foot p{ margin:2px 0 0; color:var(--text-dim); font-size:.85rem; }
+
+  .intro-panel h1{ font-size: 1.9rem; margin: 0 0 10px; line-height:1.2; }
+  .intro-panel p{ color: var(--text-dim); font-size:.98rem; margin: 0 0 16px; }
+  .intro-tags{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .tag{ font-size:.78rem; color: var(--neon); border:1px solid var(--neon-dim); padding:4px 10px; border-radius:999px; }
+  .intro-links{ display:flex; flex-wrap:wrap; gap:10px; }
+
+  .stats-grid{ display:grid; grid-template-columns: repeat(2,1fr); gap: 18px; padding: 28px 0; }
+  @media (max-width: 700px){ .stats-grid{ grid-template-columns: 1fr; } }
+  .stat-card{ display:flex; flex-direction:column; gap: 10px; }
+  .stat-label{ color: var(--text-dim); font-size:.8rem; }
+  .stat-main{ display:flex; align-items:center; gap:12px; }
+  .stat-avatar{
+    width:46px; height:46px; border-radius:10px;
+    background: linear-gradient(135deg,#132,#051);
+    border:1px solid var(--neon-dim);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; color: var(--neon); font-family:'Chakra Petch';
+  }
+  .stat-name{ font-weight:700; font-size:1.08rem; }
+  .stat-sub{ color: var(--text-dim); font-size:.82rem; }
+  .stat-foot{ margin-top:auto; padding-top:12px; border-top:1px solid var(--line); color: var(--text-dim); font-size:.78rem; }
+
+  .section{ padding: 34px 0; }
+  .section-head{ display:flex; align-items:baseline; justify-content:space-between; gap: 12px; margin-bottom: 18px; flex-wrap:wrap; }
+  .section-head h2{ font-size:1.35rem; margin:0; }
+  .section-head p{ color: var(--text-dim); font-size:.88rem; margin: 4px 0 0; }
+
+  /* submission layout: form + list side by side */
+  .submit-grid{ display:grid; grid-template-columns: .9fr 1.1fr; gap: 18px; align-items:start; }
+  @media (max-width: 860px){ .submit-grid{ grid-template-columns: 1fr; } }
+
+  .form-panel label{ display:block; font-size:.78rem; color:var(--text-dim); margin: 12px 0 6px; }
+  .form-panel label:first-of-type{ margin-top:0; }
+  .form-panel input, .form-panel textarea{
+    width:100%; background:#04070f; border:1px solid var(--line); border-radius:8px;
+    padding:10px 12px; color:var(--text); font-family:'Inter'; font-size:.9rem;
+  }
+  .form-panel input:focus, .form-panel textarea:focus{ outline:2px solid var(--neon); border-color: var(--neon); }
+  .form-panel textarea{ resize: vertical; min-height: 70px; }
+  .form-panel .btn{ margin-top:16px; width:100%; justify-content:center; }
+  .form-note{ color: var(--text-dim); font-size:.75rem; margin-top:10px; }
+
+  .entry-list{ display:flex; flex-direction:column; gap:12px; max-height: 430px; overflow-y:auto; padding-right:4px; }
+  .entry-card{ padding:16px; }
+  .entry-top{ display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
+  .entry-name{ font-weight:700; }
+  .entry-by{ color: var(--text-dim); font-size:.78rem; }
+  .entry-code{ color: var(--neon); font-family:'Chakra Petch'; font-weight:600; margin-top:6px; display:inline-block; }
+  .entry-desc{ color: var(--text-dim); font-size:.85rem; margin-top:6px; }
+  .empty-state{ color: var(--text-dim); font-size:.85rem; padding: 18px; text-align:center; border:1px dashed var(--line); border-radius:10px; }
+
+  .rules-grid{ display:grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
+  @media (max-width:700px){ .rules-grid{ grid-template-columns: 1fr; } }
+  .rule-item{ display:flex; gap:12px; padding:16px; }
+  .rule-num{ font-family:'Chakra Petch'; color: var(--neon); font-weight:700; min-width: 26px; }
+  .rule-item h4{ margin:0 0 4px; font-size:.95rem; }
+  .rule-item p{ margin:0; color: var(--text-dim); font-size:.85rem; }
+
+  table{ width:100%; border-collapse: collapse; font-size:.88rem; }
+  thead th{ text-align:left; color: var(--text-dim); font-weight:600; font-size:.78rem; padding: 10px 12px; border-bottom:1px solid var(--line); }
+  tbody td{ padding: 12px; border-bottom:1px solid var(--line); }
+  tbody tr:last-child td{ border-bottom:none; }
+  .pill{ font-size:.72rem; padding:3px 9px; border-radius:999px; font-weight:600; }
+  .pill.ban{ background: rgba(255,84,112,.12); color: var(--danger); border:1px solid rgba(255,84,112,.4); }
+  .pill.mute{ background: rgba(255,196,0,.1); color:#ffcf4d; border:1px solid rgba(255,196,0,.35); }
+
+  footer{ border-top:1px solid var(--line); margin-top: 30px; padding: 34px 0 26px; }
+  .footer-grid{ display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+  .footer-brand p{ color:var(--text-dim); font-size:.85rem; max-width: 320px; margin-top:8px; }
+  .footer-contact{ display:flex; flex-direction:column; gap:10px; }
+  .footer-contact a{ display:flex; align-items:center; gap:8px; color: var(--text-dim); font-size:.9rem; transition:color .15s; }
+  .footer-contact a:hover{ color: var(--neon); }
+  .foot-bottom{ margin-top: 26px; padding-top:18px; border-top:1px solid var(--line); color: var(--text-dim); font-size:.78rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+
+  ::selection{ background: var(--neon); color:#04150c; }
+  @media (prefers-reduced-motion: reduce){ *{ transition:none !important; } }
+</style>
 </head>
 <body>
-  <!-- Menü -->
-  <nav>
-    <a href="#home">Ana Sayfa</a>
-    <a href="#minecraft">Minecraft</a>
-    <a href="#valorant">Valorant</a>
-    <a href="#yayin">Yayın</a>
-    <a href="#kurallar">Kurallar</a>
-    <a href="#banlist">Ban/Mute</a>
-    <a href="#about">Hakkımda</a>
-  </nav>
 
-  <!-- Kutucuklar -->
-  <div class="grid">
-    <div class="card">
-      <h3>🛒 Mağaza</h3>
-      <p>%50 İNDİRİM AKTİF</p>
-      <p>AP yükleme</p>
-    </div>
-    <div class="card">
-      <h3>💻 Launcher</h3>
-      <p>Tek tıkla bağlan — Win · Mac · Linux</p>
-    </div>
-    <div class="card">
-      <h3>🎮 Discord</h3>
-      <p>35.000+ üye · katılmak için tıkla</p>
-    </div>
-    <div class="card">
-      <h3>📢 Forum</h3>
-      <p>2.863 Şu An Çevrimiçi</p>
-    </div>
-    <div class="card">
-      <h3>📖 Destek</h3>
-      <p>Kayıt aç, itiraz et, yardım al</p>
-    </div>
-    <div class="card">
-      <h3>🚫 Cezalar</h3>
-      <p>Son ban/mute listesi</p>
+<header>
+  <div class="nav-row">
+    <div class="brand"><span class="brand-mark">P</span> Poratmn</div>
+    <nav class="links">
+      <a href="#yayin" class="active">Yayın</a>
+      <a href="#istatistik">İstatistik</a>
+      <a href="#sunucu">Sunucu Önerileri</a>
+      <a href="#valorant">Valorant</a>
+      <a href="#kurallar">Kurallar</a>
+      <a href="#kayitlar">Ban / Mute</a>
+    </nav>
+    <div class="header-actions">
+      <a class="btn small" href="https://kick.com/poratmn" target="_blank" rel="noopener">Kick'te İzle</a>
     </div>
   </div>
+</header>
 
-  <!-- Yayın Bölümü -->
-  <section id="yayin" class="card">
-    <h3>🎥 Yayın Bölümü</h3>
-    <iframe src="https://kick.com/poratmn/embed" allowfullscreen></iframe>
+<main class="wrap">
+
+  <!-- HERO / LIVE -->
+  <section class="hero" id="yayin">
+    <div class="hero-grid">
+      <div class="panel live-panel">
+        <div class="live-frame-wrap">
+          <div class="live-badge"><span class="live-dot"></span> CANLI</div>
+          <iframe
+            src="https://player.kick.com/poratmn"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+            title="Poratmn Kick canlı yayın">
+          </iframe>
+        </div>
+        <div class="live-foot">
+          <div>
+            <h3>Poratmn canlı yayında</h3>
+            <p>Yayın açıksa oynatıcı otomatik başlar. Kapalıysa son yayın kaydı gösterilir.</p>
+          </div>
+          <a class="btn small" href="https://kick.com/poratmn" target="_blank" rel="noopener">Kick kanalı →</a>
+        </div>
+      </div>
+
+      <div class="panel intro-panel">
+        <h1>Minecraft ve Valorant yayınları</h1>
+        <p>Yazılımla uğraşan bir içerik üreticisiyim. İzleyicilerin kendi sunucularını ve Valorant bilgilerini paylaşabildiği bir alanım var. Sizleri severim!</p>
+        <div class="intro-tags">
+          <span class="tag">Minecraft</span>
+          <span class="tag">Valorant</span>
+          <span class="tag">Yazılım</span>
+        </div>
+        <div class="intro-links">
+          <a class="btn solid" href="https://kick.com/poratmn" target="_blank" rel="noopener">Kick'te Takip Et</a>
+          <a class="btn" href="https://instagram.com/pogaze_5" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- Kurallar -->
-  <section id="kurallar" class="card">
-    <h3>📜 Kurallar</h3>
-    <ul style="text-align:left;">
-      <li>Küfür ve hakaret yasaktır.</li>
-      <li>Spam ve flood yapmayın.</li>
-      <li>Saygılı olun, topluluğu koruyun.</li>
-      <li>Reklam yapmak yasaktır.</li>
-    </ul>
+  <!-- STATS: son takipçi / son sadakat puanı -->
+  <section id="istatistik">
+    <div class="stats-grid">
+      <div class="panel stat-card">
+        <span class="stat-label">Son takip eden</span>
+        <div class="stat-main">
+          <div class="stat-avatar" id="lastFollowerInitial">?</div>
+          <div>
+            <div class="stat-name" id="lastFollowerName">Yükleniyor…</div>
+            <div class="stat-sub" id="lastFollowerTime">—</div>
+          </div>
+        </div>
+        <div class="stat-foot">Kick üzerinden en son katılan takipçi.</div>
+      </div>
+
+      <div class="panel stat-card">
+        <span class="stat-label">Son sadakat puanı kullanan</span>
+        <div class="stat-main">
+          <div class="stat-avatar" id="lastLoyaltyInitial">?</div>
+          <div>
+            <div class="stat-name" id="lastLoyaltyName">Yükleniyor…</div>
+            <div class="stat-sub" id="lastLoyaltyTime">—</div>
+          </div>
+        </div>
+        <div class="stat-foot" id="lastLoyaltyDesc">Sadakat puanı ile alınan ödül burada görünür.</div>
+      </div>
+    </div>
   </section>
 
-  <!-- Ban/Mute Listesi -->
-  <section id="banlist" class="card">
-    <h3>🚫 En Son Banlanan/Mute’lenen</h3>
-    <ul style="text-align:left;">
-      <li>Kullanıcı1 - Ban</li>
-      <li>Kullanıcı2 - Mute</li>
-      <li>Kullanıcı3 - Ban</li>
-    </ul>
+  <!-- İZLEYİCİ SUNUCU ÖNERİLERİ -->
+  <section class="section" id="sunucu">
+    <div class="section-head">
+      <div>
+        <h2>İzleyici sunucu önerileri</h2>
+        <p>Kendi Minecraft sunucunu buradan önerebilirsin. Onaylanan sunucular listeye eklenir.</p>
+      </div>
+    </div>
+    <div class="submit-grid">
+      <div class="panel form-panel">
+        <label for="srvSunucuAdi">Sunucu adı</label>
+        <input id="srvSunucuAdi" type="text" placeholder="Örn: CraftLand">
+        <label for="srvIp">Sunucu IP'si</label>
+        <input id="srvIp" type="text" placeholder="Örn: play.craftland.com">
+        <label for="srvAciklama">Açıklama</label>
+        <textarea id="srvAciklama" placeholder="Sunucu hakkında kısa bir açıklama yaz"></textarea>
+        <label for="srvGonderen">Kick / Instagram kullanıcı adın</label>
+        <input id="srvGonderen" type="text" placeholder="Örn: kullanici_adi">
+        <button class="btn solid" onclick="submitServer()">Öneriyi gönder</button>
+        <p class="form-note">Gönderdiğinde varsayılan e-posta uygulaman açılır, mesaj Poratmn'a iletilir ve onaylanınca aşağıdaki listeye eklenir.</p>
+      </div>
+      <div>
+        <div class="entry-list" id="serverList"></div>
+      </div>
+    </div>
   </section>
 
-  <!-- Hakkımda -->
-  <section id="about" class="about">
-    <h3>ℹ️ Hakkımda</h3>
-    <p>Ben Atlas, 13 yaşındayım. Yazılımla uğraşmayı, oyun oynamayı ve yayın yapmayı seviyorum. 
-    Minecraft ve Valorant topluluğu için bu siteyi kurdum. Sizlerle birlikte büyümek istiyorum. 🎮✨</p>
+  <!-- İZLEYİCİ VALORANT PAYLAŞIMLARI -->
+  <section class="section" id="valorant">
+    <div class="section-head">
+      <div>
+        <h2>İzleyici Valorant nickleri & oda kodları</h2>
+        <p>Kendi nickini veya açık oda kodunu paylaşabilirsin.</p>
+      </div>
+    </div>
+    <div class="submit-grid">
+      <div class="panel form-panel">
+        <label for="valNick">Valorant nickname</label>
+        <input id="valNick" type="text" placeholder="Örn: OyuncuAdi#TR1">
+        <label for="valOda">Oda kodu (varsa)</label>
+        <input id="valOda" type="text" placeholder="Örn: AB12CD">
+        <label for="valAciklama">Açıklama</label>
+        <textarea id="valAciklama" placeholder="Rütbe, rol, aradığın oyuncu tipi vb."></textarea>
+        <label for="valGonderen">Kick / Instagram kullanıcı adın</label>
+        <input id="valGonderen" type="text" placeholder="Örn: kullanici_adi">
+        <button class="btn solid" onclick="submitValorant()">Paylaşımı gönder</button>
+        <p class="form-note">Gönderdiğinde varsayılan e-posta uygulaman açılır, mesaj Poratmn'a iletilir ve onaylanınca aşağıdaki listeye eklenir.</p>
+      </div>
+      <div>
+        <div class="entry-list" id="valorantList"></div>
+      </div>
+    </div>
   </section>
 
-  <!-- Footer -->
-  <footer>
-    <p>📧 Gmail: <strong>poratmn@gmail.com</strong></p>
-    <p>📸 Instagram: <strong>pogaze_5</strong></p>
-  </footer>
+  <!-- KURALLAR -->
+  <section class="section" id="kurallar">
+    <div class="section-head">
+      <div>
+        <h2>Kurallar</h2>
+        <p>Yayın ve paylaşım alanları için geçerli temel kurallar.</p>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="rules-grid">
+        <div class="rule-item"><span class="rule-num">01</span><div><h4>Saygı</h4><p>Küfür, hakaret ve ayrımcı söylem yasaktır.</p></div></div>
+        <div class="rule-item"><span class="rule-num">02</span><div><h4>Spam yok</h4><p>Chat'te ve önerilerde tekrarlayan mesaj ve reklam yasaktır.</p></div></div>
+        <div class="rule-item"><span class="rule-num">03</span><div><h4>Kişisel bilgi paylaşma</h4><p>Kendinin veya başkasının özel bilgilerini paylaşma.</p></div></div>
+        <div class="rule-item"><span class="rule-num">04</span><div><h4>Hile / exploit yok</h4><p>Oyunlarda hile, bug abuse tespit edilirse kalıcı ban uygulanır.</p></div></div>
+        <div class="rule-item"><span class="rule-num">05</span><div><h4>Uygunsuz sunucu/paylaşım</h4><p>Kurallara aykırı sunucu veya içerik onaylanmaz.</p></div></div>
+        <div class="rule-item"><span class="rule-num">06</span><div><h4>İtiraz hakkı</h4><p>Ban/mute itirazları için aşağıdaki e-posta kullanılabilir.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BAN / MUTE -->
+  <section class="section" id="kayitlar">
+    <div class="section-head">
+      <div>
+        <h2>Son ban / mute kayıtları</h2>
+        <p>En son uygulanan yaptırımlar.</p>
+      </div>
+    </div>
+    <div class="panel" style="padding:0; overflow:hidden;">
+      <table>
+        <thead>
+          <tr><th>Kullanıcı</th><th>Tür</th><th>Sebep</th><th>Tarih</th></tr>
+        </thead>
+        <tbody id="sanctionsBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div class="footer-brand">
+      <div class="brand"><span class="brand-mark">P</span> Poratmn</div>
+      <p>Yazılımla uğraşan, Minecraft ve Valorant içerikleri üreten bir yayıncıyım. Sizleri severim!</p>
+    </div>
+    <div class="footer-contact">
+      <a href="mailto:poratmn@gmail.com">✉ İletişim (e-posta)</a>
+      <a href="https://instagram.com/pogaze_5" target="_blank" rel="noopener">📸 Instagram — pogaze_5</a>
+      <a href="https://kick.com/poratmn" target="_blank" rel="noopener">▶ Kick — poratmn</a>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 Poratmn</span>
+    <span>Kurallar · Gizlilik · İtiraz</span>
+  </div>
+</footer>
+
+<script>
+  // ================= DÜZENLENEBİLİR VERİLER =================
+  // Aşağıdaki listeler, onayladığın sunucu / valorant paylaşımlarını
+  // manuel olarak eklediğin yerdir. Yeni bir öneri onaylandığında
+  // buraya bir satır daha ekle.
+
+  // Henüz veri yok — gerçek biri olduğunda buraya elle ekle.
+  const lastFollower = { name: "", time: "" };
+  const lastLoyalty  = { name: "", time: "", reward: "" };
+
+  const sanctions = [];
+
+  // İzleyicilerden onaylanan sunucu önerileri (onayladıkça buraya ekle)
+  const approvedServers = [];
+
+  // İzleyicilerden onaylanan valorant paylaşımları (onayladıkça buraya ekle)
+  const approvedValorant = [];
+
+  const CONTACT_EMAIL = "poratmn@gmail.com";
+
+  // ================= RENDER =================
+  function setStat(prefix, name, time){
+    const hasData = !!name;
+    document.getElementById(prefix+"Initial").textContent = hasData ? name.charAt(0).toUpperCase() : "—";
+    document.getElementById(prefix+"Name").textContent = hasData ? name : "Henüz yok";
+    document.getElementById(prefix+"Time").textContent = hasData ? time : "İlk veri geldiğinde görünecek";
+  }
+  setStat("lastFollower", lastFollower.name, lastFollower.time);
+  setStat("lastLoyalty", lastLoyalty.name, lastLoyalty.time);
+  document.getElementById("lastLoyaltyDesc").textContent = lastLoyalty.reward || "Sadakat puanı ile alınan ödül burada görünür.";
+
+  const sanctionsBody = document.getElementById("sanctionsBody");
+  if(sanctions.length === 0){
+    sanctionsBody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-dim);">Henüz kayıt yok.</td></tr>';
+  } else {
+    sanctions.forEach(s => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${escapeHtml(s.user)}</td>
+        <td><span class="pill ${s.type}">${s.type === 'ban' ? 'Ban' : 'Mute'}</span></td>
+        <td>${escapeHtml(s.reason)}</td>
+        <td>${escapeHtml(s.date)}</td>
+      `;
+      sanctionsBody.appendChild(tr);
+    });
+  }
+
+  function renderServerList(){
+    const el = document.getElementById("serverList");
+    el.innerHTML = "";
+    if(approvedServers.length === 0){
+      el.innerHTML = '<div class="empty-state">Henüz onaylanmış sunucu yok.</div>';
+      return;
+    }
+    approvedServers.forEach(s => {
+      const div = document.createElement("div");
+      div.className = "panel entry-card";
+      div.innerHTML = `
+        <div class="entry-top"><span class="entry-name">${escapeHtml(s.name)}</span><span class="entry-by">@${escapeHtml(s.by)}</span></div>
+        <span class="entry-code">${escapeHtml(s.ip)}</span>
+        <div class="entry-desc">${escapeHtml(s.desc)}</div>
+      `;
+      el.appendChild(div);
+    });
+  }
+
+  function renderValorantList(){
+    const el = document.getElementById("valorantList");
+    el.innerHTML = "";
+    if(approvedValorant.length === 0){
+      el.innerHTML = '<div class="empty-state">Henüz onaylanmış paylaşım yok.</div>';
+      return;
+    }
+    approvedValorant.forEach(v => {
+      const div = document.createElement("div");
+      div.className = "panel entry-card";
+      div.innerHTML = `
+        <div class="entry-top"><span class="entry-name">${escapeHtml(v.nick)}</span><span class="entry-by">@${escapeHtml(v.by)}</span></div>
+        <span class="entry-code">${escapeHtml(v.code || "Oda kodu paylaşılmadı")}</span>
+        <div class="entry-desc">${escapeHtml(v.desc)}</div>
+      `;
+      el.appendChild(div);
+    });
+  }
+
+  renderServerList();
+  renderValorantList();
+
+  function escapeHtml(str){
+    const d = document.createElement("div");
+    d.textContent = str ?? "";
+    return d.innerHTML;
+  }
+
+  // ================= FORM GÖNDERİMİ (mailto ile) =================
+  function submitServer(){
+    const name = document.getElementById("srvSunucuAdi").value.trim();
+    const ip = document.getElementById("srvIp").value.trim();
+    const desc = document.getElementById("srvAciklama").value.trim();
+    const by = document.getElementById("srvGonderen").value.trim();
+    if(!name || !ip){
+      alert("Sunucu adı ve IP zorunlu.");
+      return;
+    }
+    const subject = encodeURIComponent("Sunucu Önerisi: " + name);
+    const body = encodeURIComponent(
+      "Sunucu adı: " + name + "\n" +
+      "IP: " + ip + "\n" +
+      "Açıklama: " + desc + "\n" +
+      "Gönderen: " + by
+    );
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+  }
+
+  function submitValorant(){
+    const nick = document.getElementById("valNick").value.trim();
+    const code = document.getElementById("valOda").value.trim();
+    const desc = document.getElementById("valAciklama").value.trim();
+    const by = document.getElementById("valGonderen").value.trim();
+    if(!nick){
+      alert("Nickname zorunlu.");
+      return;
+    }
+    const subject = encodeURIComponent("Valorant Paylaşımı: " + nick);
+    const body = encodeURIComponent(
+      "Nickname: " + nick + "\n" +
+      "Oda kodu: " + code + "\n" +
+      "Açıklama: " + desc + "\n" +
+      "Gönderen: " + by
+    );
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+  }
+</script>
+
 </body>
 </html>
